@@ -1,0 +1,320 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #07100d;
+  --color-canvas-2: #0a1613;
+  --color-surface: #0f1e19;
+  --color-surface-2: #15271f;
+  --color-surface-3: #1b3229;
+  --color-line: #22392f;
+  --color-line-soft: #1a2c25;
+  --color-mint: #3ddc97;
+  --color-mint-soft: #7ef0bd;
+  --color-mint-deep: #0b6b4d;
+  --color-gold: #f3b23c;
+  --color-gold-soft: #ffd479;
+  --color-ink: #eef7f1;
+  --color-muted: #94b0a3;
+  --color-faint: #6b8579;
+  --color-danger: #ff7a6e;
+  --color-income: #61c7ff;
+
+  --font-display: "Tajawal", "Cairo", "Noto Kufi Arabic", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Tajawal", "Cairo", "IBM Plex Sans Arabic", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-latin: "Manrope", "Space Grotesk", "Tajawal", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-fade-up: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.3s ease both;
+  --animate-pop: pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-slide-in: slide-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pulse-ring: pulse-ring 2s ease-out infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-wave: wave 1s ease-in-out infinite;
+  --animate-tab-in: tab-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tab-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(6px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+:root {
+  color-scheme: dark;
+  --tab-bar-h: 4.5rem;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1100px 600px at 85% -10%, rgba(61, 220, 151, 0.13), transparent 60%),
+    radial-gradient(900px 500px at 5% 0%, rgba(243, 178, 60, 0.09), transparent 55%),
+    var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+html[dir="ltr"] body {
+  font-family: var(--font-latin);
+}
+
+::selection {
+  background: rgba(61, 220, 151, 0.32);
+}
+
+@layer utilities {
+  .tap {
+    transition:
+      transform 0.16s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tap:active {
+    transform: scale(0.965);
+  }
+  .tap-soft:active {
+    transform: scale(0.985);
+  }
+  .pb-safe {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .mb-tabbar {
+    margin-bottom: calc(var(--tab-bar-h) + env(safe-area-inset-bottom, 0px));
+  }
+  .glass {
+    background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+    backdrop-filter: blur(18px) saturate(140%);
+  }
+  .card-grad {
+    background:
+      linear-gradient(160deg, rgba(61, 220, 151, 0.12), transparent 55%),
+      var(--color-surface);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+/* Focus visibility for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-mint);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ---------------- react-day-picker (shadcn-style calendar) ---------------- */
+.rdp {
+  --rdp-accent-color: var(--color-mint-deep);
+  --rdp-accent-background-color: rgba(61, 220, 151, 0.16);
+  font-size: 0.9rem;
+}
+.rdp-months {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+.rdp-month {
+  width: 100%;
+}
+.rdp-month_caption {
+  font-weight: 700;
+  color: var(--color-ink);
+  padding-block: 0.35rem;
+}
+.rdp-caption_label {
+  font-size: 0.95rem;
+}
+.rdp-nav {
+  position: absolute;
+  inset-block-start: 0.25rem;
+  inset-inline-end: 0.25rem;
+  display: flex;
+  gap: 0.25rem;
+}
+.rdp-button_previous,
+.rdp-button_next,
+.rdp-months_dropdown,
+.rdp-years_dropdown {
+  display: none;
+}
+.rdp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.1rem;
+  border-bottom: 1px solid var(--color-line-soft);
+  padding-bottom: 0.35rem;
+}
+.rdp-weekday {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-faint);
+  text-align: center;
+}
+.rdp-weeks {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.1rem;
+  padding-top: 0.35rem;
+}
+.rdp-day {
+  position: relative;
+  padding: 0;
+  text-align: center;
+}
+.rdp-day_button {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.12s ease;
+}
+.rdp-day_button:hover {
+  background: rgba(61, 220, 151, 0.14);
+}
+.rdp-day_button:active {
+  transform: scale(0.92);
+}
+.rdp-today .rdp-day_button {
+  color: var(--color-gold);
+  font-weight: 800;
+}
+.rdp-outside .rdp-day_button {
+  color: var(--color-faint);
+  opacity: 0.45;
+}
+.rdp-disabled .rdp-day_button {
+  opacity: 0.25;
+}
+.rdp-selected .rdp-day_button {
+  background: var(--color-mint);
+  color: #06231a;
+  font-weight: 800;
+}
+.rdp-range_middle .rdp-day_button {
+  background: rgba(61, 220, 151, 0.18);
+  color: var(--color-ink);
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+.rdp-range_start .rdp-day_button,
+.rdp-range_end .rdp-day_button {
+  background: var(--color-mint);
+  color: #06231a;
+  font-weight: 800;
+}
