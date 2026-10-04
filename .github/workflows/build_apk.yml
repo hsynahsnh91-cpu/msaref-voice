@@ -1,0 +1,40 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main # أو اسم الفرع الرئيسي لديك مثل master
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. جلب الكود من المستودع
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. إعداد بيئة جافا (Java JDK)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu' # يمكنك استخدام 'temurin' أيضاً
+          java-version: '17'
+
+      # 3. إعطاء صلاحيات التشغيل لملف Gradle
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x gradlew
+
+      # 4. بناء ملف APK (نسخة الديباج أو الريليز غير الموقعة)
+      - name: Build APK
+        run: ./gradlew assembleDebug
+
+      # 5. رفع ملف APK الناتج لتتمكن من تحميله
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
